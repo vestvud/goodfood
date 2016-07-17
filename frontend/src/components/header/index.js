@@ -5,8 +5,8 @@ require('./index.styl')
 export default React.createClass({
   render: () => {
     return (
-      <div className="index">
-        Index
+      <div className="header">
+        Header
       </div>
     );
   },

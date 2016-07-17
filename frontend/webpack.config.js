@@ -4,7 +4,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var isProduction = process.env.NODE_ENV === 'production';
 
 var config = module.exports = {
-    entry: "./src/app.js",
+    entry: "./src/index.js",
     output: {
         path: __dirname + '/bld',
         filename: isProduction ? 'app.min.js' : 'app.js',
@@ -25,7 +25,7 @@ var config = module.exports = {
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel',
                 query: {
-                    presets: ['es2015', 'react']
+                    presets: ["es2015", "react", "stage-1"]
                 }
             },
             { 
