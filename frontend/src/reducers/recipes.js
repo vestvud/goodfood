@@ -1,6 +1,6 @@
-const movie = (state, action) => {
+const recipe = (state, action) => {
   switch (action.type) {
-    case 'ADD_MOVIE':
+    case 'ADD_RECIPE':
       return {
         id: action.id,
         text: action.text,
@@ -12,16 +12,16 @@ const movie = (state, action) => {
   }
 }
 
-const movies = (state = [], action) => {
+const recipes = (state = [], action) => {
   switch (action.type) {
-    case 'ADD_MOVIE':
+    case 'ADD_RECIPES':
       return [
         ...state,
-        movie(undefined, action)
+        recipe(undefined, action)
       ]
     default:
       return state
   }
 }
 
-export default movies
+export default recipes

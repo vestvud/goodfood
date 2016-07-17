@@ -1,4 +1,5 @@
 export App from './app'
-export Movies from './movies'
-export Movie from './movie'
+export Recipes from './recipes'
+export Recipe from './recipe'
+export RecipeForm from './recipe-form'
 export Page404 from './page404'

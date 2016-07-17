@@ -4,27 +4,23 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 
-import { addMovie } from './actions'
-import moviesReducer from './reducers/movies.js'
+import { addRecipe } from './actions'
+import recipesReducer from './reducers/recipes.js'
 
-import { App, Movies, Movie, Page404 } from './layouts'
-
+import { App, Recipes, Recipe, RecipeForm, Page404 } from './layouts'
 
 const rootReducer = combineReducers({
-  movies: moviesReducer
+  recipes: recipesReducer
 })
 
-const store = createStore(rootReducer, {
-    movies: []
-})
-
-store.dispatch(addMovie('cinema1'))
+const store = createStore(rootReducer, {});
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={browserHistory}>
-        <Route path='/' component={Movies} />
-        <Route path='/movies/:movieId' component={Movie} />
+        <Route path='/' component={RecipeForm} />
+        <Route path='/recipeForm' component={Recipes} />
+        <Route path='/recipes/:recipeId' component={Recipe} />
         <Route path='*' component={Page404} />
     </Router>
   </Provider>,

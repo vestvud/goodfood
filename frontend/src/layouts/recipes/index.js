@@ -2,26 +2,26 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import App from '../app'
 
-import MoviesList from '../../components/movies-list'
+import RecipesList from '../../components/recipes-list'
 
 require('./index.styl')
 
-class Movies extends Component {
+class Recipes extends Component {
  
   render() {
     const { history } = this.context;
-    const { movies } = this.props;
+    const { recipes } = this.props;
 
     return (
         <App>
-          <MoviesList 
-          	movies={movies}
-          	onMovieClick={function(){}}/>
+          <RecipesList 
+          	recipes={recipes}
+          	onRecipeClick={function(){}}/>
         </App>
     );
   }
 }
 
 export default connect(state => ({
-  movies: state.movies
-}))(Movies);
+  recipes: state.recipes
+}))(Recipes);

@@ -1,13 +1,16 @@
-import React from 'react'
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 
 require('./index.styl')
 
-export default React.createClass({
-  render: () => {
+class Header extends Component {
+  render() {
     return (
       <div className="header">
-        Header
+      	<div className="header__title">Мои рецепты для правильного питания</div>
       </div>
-    );
-  },
-});
+    )
+  }
+};
+
+export default connect()(Header);

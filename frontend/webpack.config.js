@@ -8,6 +8,7 @@ var config = module.exports = {
     output: {
         path: __dirname + '/bld',
         filename: isProduction ? 'app.min.js' : 'app.js',
+        output: { "publicPath": "/assets" }
     },
     devServer: {
       port: 8990,
@@ -21,16 +22,20 @@ var config = module.exports = {
     module: {
         loaders: [
             {
-                test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: 'babel',
-                query: {
-                    presets: ["es2015", "react", "stage-1"]
-                }
+              test: /\.js$/,
+              exclude: /(node_modules|bower_components)/,
+              loader: 'babel',
+              query: {
+                  presets: ["es2015", "react", "stage-1"]
+              }
             },
             { 
-                test: /\.styl$/, 
-                loader: ExtractTextPlugin.extract('style-loader', 'css-loader!stylus-loader')
+              test: /\.styl$/, 
+              loader: ExtractTextPlugin.extract('style-loader', 'css-loader!stylus-loader')
+            },
+            {  
+              test: /\.jpg$/,    
+              loader: "url-loader?limit=10000&minetype=image/jpg" 
             }
         ],
         resolve: {

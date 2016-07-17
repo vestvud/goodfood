@@ -1,8 +1,8 @@
-let nextMovieId = 0
-export const addMovie = (text) => {
+let nextRecipeId = 0
+export const addRecipe = (data) => {
   return {
-    type: 'ADD_MOVIE',
-    id: nextMovieId++,
-    text
+    type: 'ADD_RECIPE',
+    id: nextRecipeId++,
+    data
   }
 }
