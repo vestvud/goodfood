@@ -22,6 +22,8 @@ class Recipes extends Component {
   }
 }
 
-export default connect(state => ({
-  recipes: state.recipes
-}))(Recipes);
+export default connect(
+  function mapStateToProps(state) {
+    return { recipes: state.recipes };
+  }
+)(Recipes);

@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import App from '../app'
 import { addRecipe } from '../../actions'
 
-import { Paper, Divider, RaisedButton, FloatingActionButton, Chip } from 'material-ui'
+import { Paper, Divider, RaisedButton, FloatingActionButton, Chip, Snackbar } from 'material-ui'
 import FormsyText from 'formsy-material-ui/lib/FormsyText';
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
@@ -15,12 +15,12 @@ class RecipeForm extends Component {
   state = {
     canSubmit: false,
     errorMessages: {
-      wordsError: "Please only use letters",
-      numericError: "Please provide a number",
-      urlError: "Please provide a valid URL",
+      numericError: "Пожалуйста, введите число"
     },
     tags: [],
-    tagsIndex: 0
+    tagsIndex: 0,
+    openSnackbar: false,
+    snackbarMessage: 'Ваш рецепт был добавлен.'
   }
 
   enableButton = () => {
@@ -41,6 +41,7 @@ class RecipeForm extends Component {
       data.tags = this.state.tags;
     }
     addRecipe(data);
+    this.setState({openSnackbar: true});
   }
 
   notifyFormError = (data) => {
@@ -59,7 +60,13 @@ class RecipeForm extends Component {
     const tagToDelete = tags.map((tag) => tag.key).indexOf(key);
     tags.splice(tagToDelete, 1);
     this.setState({tags: tags});
-  };
+  }
+
+  closeSnackbar = () => {
+    this.setState({
+      openSnackbar: false
+    })
+  }
 
   render() {
     const {addRecipe} = this.props;
@@ -95,7 +102,7 @@ class RecipeForm extends Component {
                 multiLine={true}
                 underlineShow={false}
                 fullWidth={true}
-                name="recipe"
+                name="text"
                 required
               />
               <Divider />
@@ -196,6 +203,14 @@ class RecipeForm extends Component {
                 />
               </div>
              </Formsy.Form>
+
+            <Snackbar
+              open={this.state.openSnackbar}
+              message={this.state.snackbarMessage}
+              action="закрыть"
+              autoHideDuration={1000}
+              onRequestClose={this.closeSnackbar}
+            />
           </Paper>
         </div>
         </App>
