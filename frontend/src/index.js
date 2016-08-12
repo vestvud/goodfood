@@ -5,15 +5,20 @@ import { Provider } from 'react-redux'
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
 
 import { addRecipe } from './actions'
-import recipesReducer from './reducers/recipes.js'
+import { recipes, tags } from './reducers'
 
 import { App, Recipes, Recipe, RecipeForm, Page404 } from './layouts'
 
 const rootReducer = combineReducers({
-  recipes: recipesReducer
+  recipes: recipes,
+  tags: tags
 })
 
-const store = createStore(rootReducer, {});
+const store = createStore(rootReducer, {recipes: [], tags: []});
+
+store.subscribe(() => {
+  console.log(store.getState().lastAction, store.getState());
+});
 
 ReactDOM.render(
   <Provider store={store}>

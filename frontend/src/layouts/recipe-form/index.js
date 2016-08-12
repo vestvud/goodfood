@@ -3,19 +3,67 @@ import { connect } from 'react-redux'
 import App from '../app'
 import { addRecipe } from '../../actions'
 
-import { TextField, Paper, Divider, RaisedButton, FloatingActionButton } from 'material-ui'
+import { Paper, Divider, RaisedButton, FloatingActionButton, Chip } from 'material-ui'
+import FormsyText from 'formsy-material-ui/lib/FormsyText';
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
-require('./index.styl')
+require('./index.styl');
 
-const Recipes = ({dispatch}) => {
 
-    let titleInput, 
-      recipeInput, 
-      proteinsInput, 
-      fatsInput, 
-      calorificInput, 
-      carbohydratesInput;
+class RecipeForm extends Component {
+
+  state = {
+    canSubmit: false,
+    errorMessages: {
+      wordsError: "Please only use letters",
+      numericError: "Please provide a number",
+      urlError: "Please provide a valid URL",
+    },
+    tags: [],
+    tagsIndex: 0
+  }
+
+  enableButton = () => {
+    this.setState({
+      canSubmit: true,
+    });
+  }
+
+  disableButton = () => {
+    this.setState({
+      canSubmit: false,
+    });
+  }
+
+  submitForm = (data) => {
+    const {addRecipe} = this.props;
+    if (this.state.tags.length) {
+      data.tags = this.state.tags;
+    }
+    addRecipe(data);
+  }
+
+  notifyFormError = (data) => {
+    console.error('Form error:', data);
+  }
+
+  addTagInput = () => {
+    let tags = this.state.tags;
+    tags.push({title: this.tagInput.getValue(), key: this.state.tagsIndex + 1});
+    this.setState({tags: tags, tagsIndex: ++this.state.tagsIndex});
+    this.tagInput.setValue('what');
+  }
+
+  deleteTag = (key) => {
+    let tags = this.state.tags;
+    const tagToDelete = tags.map((tag) => tag.key).indexOf(key);
+    tags.splice(tagToDelete, 1);
+    this.setState({tags: tags});
+  };
+
+  render() {
+    const {addRecipe} = this.props;
+    let { wordsError, numericError, urlError } = this.state.errorMessages;
 
     return (
         <App>
@@ -23,122 +71,145 @@ const Recipes = ({dispatch}) => {
           <div className="recipe-form__title">Добавить новый рецепт</div>
 
           <Paper zDepth={2}>
-            <TextField style={{
-              paddingLeft: '10px',
-              fontWeight: 'bold'
-            }} 
-              hintText="Название" 
-              underlineShow={false} 
-              fullWidth={true}
-              ref={node => {
-                titleInput = node
-              }}
-            />
-            <Divider />
-            <TextField style={{
-                paddingLeft: '10px'
+            <Formsy.Form
+              onValid={this.enableButton}
+              onInvalid={this.disableButton}
+              onValidSubmit={this.submitForm}
+              onInvalidSubmit={this.notifyFormError}
+            >
+              <FormsyText style={{
+                paddingLeft: '10px',
+                fontWeight: 'bold'
               }} 
-              hintText="Рецепт" 
-              multiLine={true}
-              underlineShow={false}
-              fullWidth={true}
-              ref={node => {
-                recipeInput = node
-              }}
-            />
-            <Divider />
-            <div className="recipe-form__overflow">
+                hintText="Название" 
+                underlineShow={false} 
+                fullWidth={true}
+                name="title"
+                required
+              />
+              <Divider />
+              <FormsyText style={{
+                  paddingLeft: '10px'
+                }} 
+                hintText="Рецепт" 
+                multiLine={true}
+                underlineShow={false}
+                fullWidth={true}
+                name="recipe"
+                required
+              />
+              <Divider />
+              <div className="recipe-form__overflow">
 
-              <div className="recipe-form__options">
-                <TextField style={{
+                <div className="recipe-form__options">
+                  <FormsyText style={{
+                    paddingLeft: '10px',
+                    display: 'inline-block',
+                    width: '60px',
+                    marginRight: '7px'
+                  }} 
+                    hintText="Белки"
+                    name="proteins"
+                    validations="isNumeric"
+                    validationError={numericError}
+                  />
+                  <FormsyText style={{
+                    paddingLeft: '10px',
+                    display: 'inline-block',
+                    width: '60px',
+                    marginRight: '7px'
+                  }} 
+                    hintText="Жиры"
+                    name="fats"
+                    validations="isNumeric"
+                    validationError={numericError}
+                  />
+                  <FormsyText style={{
+                    paddingLeft: '10px',
+                    display: 'inline-block',
+                    width: '60px',
+                    marginRight: '7px'
+                  }} 
+                    hintText="Углев."
+                    name="carbohydrates"
+                    validations="isNumeric"
+                    validationError={numericError}
+                  />
+                </div>
+
+                <FormsyText style={{
                   paddingLeft: '10px',
-                  display: 'inline-block',
-                  width: '60px',
+                  width: '130px',
+                  float: 'right',
                   marginRight: '7px'
                 }} 
-                  hintText="Белки"
-                  ref={node => {
-                    proteinsInput = node
-                  }}
+                  hintText="Калорийность"
+                  name="calorific"
+                  validations="isNumeric"
+                  validationError={numericError}
                 />
-                <TextField style={{
-                  paddingLeft: '10px',
-                  display: 'inline-block',
-                  width: '60px',
-                  marginRight: '7px'
-                }} 
-                  hintText="Жиры"
-                  ref={node => {
-                    fatsInput = node
+              </div>  
+              <div className="recipe-form__tags">
+                {this.state.tags.map((tag)=>{
+                  return (<Chip
+                    key={tag.key}
+                    onRequestDelete={() => this.deleteTag(tag.key)}
+                    style={{
+                      display: 'inline-block',
+                      margin: '5px',
+                      fontSize: '12px'
+                    }}
+                    >
+                    {tag.title}
+                    </Chip>)
+                })}
+                <div style={{marginTop: '5px'}}>
+                  <FormsyText style={{
+                    paddingLeft: '10px',
+                    width: '130px',
+                    }} 
+                    hintText="Тег"
+                    name="tag"
+                    ref={(c) => this.tagInput = c}
+                  />
+                  <FloatingActionButton mini={true} 
+                    style={{
+                      marginLeft: '10px'
+                    }}
+                    onClick={this.addTagInput}
+                    >
+                    <ContentAdd />
+                  </FloatingActionButton>
+                </div>  
+              </div>
+          
+              <div className="recipe-form__overflow">
+                <RaisedButton 
+                  label="Добавить" 
+                  primary={true} 
+                  style={{
+                    float: 'right',
+                    margin: '0 10px 10px 0'
                   }}
-                />
-                <TextField style={{
-                  paddingLeft: '10px',
-                  display: 'inline-block',
-                  width: '60px',
-                  marginRight: '7px'
-                }} 
-                  hintText="Углев."
-                  ref={node => {
-                    carbohydratesInput = node
-                  }}
+                  type="submit"
+                  disabled={!this.state.canSubmit}
                 />
               </div>
-
-              <TextField style={{
-                paddingLeft: '10px',
-                width: '130px',
-                float: 'right',
-                marginRight: '7px'
-              }} 
-                hintText="Калорийность"
-                ref={node => {
-                  calorificInput = node
-                }}
-              />
-            </div>  
-            <div className="recipe-form__tags">
-              <TextField style={{
-                paddingLeft: '10px',
-                width: '130px',
-              }} 
-                hintText="Тег" 
-              />
-              <FloatingActionButton mini={true} 
-                style={{
-                  marginLeft: '10px'
-                }}>
-                <ContentAdd />
-              </FloatingActionButton>
-            </div>
-        
-            <div className="recipe-form__overflow">
-              <RaisedButton label="Добавить" 
-              primary={true} 
-              style={{
-                float: 'right',
-                margin: '0 10px 10px 0'
-              }}
-              onClick={e => {
-                e.preventDefault()
-                let data = {
-                  title: titleInput.value, 
-                  recipe: recipeInput.value, 
-                  proteins: proteinsInput.value, 
-                  fats: fatsInput.value, 
-                  calorific: calorificInput.value, 
-                  carbohydrates: carbohydratesInput.value
-                }
-                console.log(data, 'data');
-                dispatch(addRecipe(data))
-                data = {};
-              }}
-              />
-            </div>
+             </Formsy.Form>
           </Paper>
         </div>
         </App>
     );
-}
+  }
+};
 
-export default connect()(Recipes);
+export default connect(
+  function mapStateToProps(state){
+    return {}
+  },
+  function mapDispatchToProps(dispatch){
+    return {
+      addRecipe: data => dispatch(addRecipe(data))
+    };
+  }
+)(RecipeForm);

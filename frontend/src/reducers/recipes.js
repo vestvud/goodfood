@@ -1,27 +1,14 @@
-const recipe = (state, action) => {
+export default (recipes = [], action) => {
   switch (action.type) {
     case 'ADD_RECIPE':
-      return {
-        id: action.id,
-        text: action.text,
-        completed: false
-      }
-
+      console.log(action, 'a1')
+      recipes.push({
+      	data: action.data,
+      	id: action.id
+      });
+      console.log(recipes, 're')	
+      return recipes;
     default:
-      return state
+      return recipes;
   }
 }
-
-const recipes = (state = [], action) => {
-  switch (action.type) {
-    case 'ADD_RECIPES':
-      return [
-        ...state,
-        recipe(undefined, action)
-      ]
-    default:
-      return state
-  }
-}
-
-export default recipes

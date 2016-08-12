@@ -6,7 +6,10 @@
 		margin-bottom 10px
 		text-align center
 	&__overflow
-		overflow hidden
+		&:after
+			content ""
+			clear both 
+			display block
 		margin-top 10px
 	&__options
 		display inline-block

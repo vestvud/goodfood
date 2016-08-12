@@ -7,8 +7,8 @@ export default React.createClass({
   render: () => {
     return (
     	<App>
-	      <div className="movie">
-	        Movie
+	      <div className="recipe">
+	        Recipe
 	      </div>
       	</App>
     );
