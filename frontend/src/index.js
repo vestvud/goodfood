@@ -3,18 +3,20 @@ import ReactDOM from 'react-dom'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import { Router, Route, browserHistory, IndexRoute } from 'react-router'
+import thunk from 'redux-thunk'
 
 import { addRecipe } from './actions/recipes.js'
-import { recipes, tags } from './reducers'
+import { recipes, tags, foundRecipes } from './reducers'
 
 import { App, Recipes, Recipe, RecipeForm, Search, Page404 } from './layouts'
 
 const rootReducer = combineReducers({
-  recipes: recipes,
-  tags: tags
+  recipes,
+  tags,
+  foundRecipes
 })
 
-const store = createStore(rootReducer, {recipes: [], tags: []});
+const store = createStore(rootReducer, {recipes: [], tags: [], foundRecipes: []}, applyMiddleware(thunk));
 
 store.subscribe(() => {
   console.log(store.getState().lastAction, store.getState());

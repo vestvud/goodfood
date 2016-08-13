@@ -13,7 +13,7 @@ export default (recipes = [], action) => {
         }
         return recipe;
       });
-      return recipes;  
+      return recipes;
     default:
       return recipes;
   }

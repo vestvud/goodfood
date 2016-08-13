@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import App from '../app'
-import { toggleRecipeFavorite, findRecipe } from '../../actions/recipes.js'
+import { toggleRecipeFavorite } from '../../actions/recipes.js'
+import { findRecipes, clearFoundRecipes } from '../../actions/found-recipes.js'
 
 import SearchForm from '../../components/search-form'
 import RecipesList from '../../components/recipes-list'
@@ -9,15 +10,19 @@ import RecipesList from '../../components/recipes-list'
 require('./index.styl')
 
 class Search extends Component {
+
+  componentWillUnmount() {
+    this.props.clearFoundRecipes();
+  }
  
   render() {
-    const { recipes, toggleFavorite } = this.props;
+    const { foundRecipes, toggleFavorite, findRecipes } = this.props;
 
     return (
         <App>
-          <SearchForm/>
+          <SearchForm findRecipes={findRecipes}/>
           <RecipesList 
-          	recipes={recipes}
+          	recipes={foundRecipes}
           	toggleFavorite={toggleFavorite}/>
         </App>
     );
@@ -26,12 +31,14 @@ class Search extends Component {
 
 export default connect(
   function mapStateToProps(state) {
-    return { recipes: state.recipes };
+    let foundRecipes = state.foundRecipes.length > 0 ? state.foundRecipes : state.recipes;
+    return { foundRecipes: foundRecipes };
   },
   function mapDispatchToProps(dispatch) {
     return {
       toggleFavorite: recipeId => dispatch(toggleRecipeFavorite(recipeId)),
-      findRecipe: data => dispatch(findRecipe(data))
+      findRecipes: data => dispatch(findRecipes(data)),
+      clearFoundRecipes: () => dispatch(clearFoundRecipes())
     }
   }
 )(Search);

@@ -12,11 +12,4 @@ export const toggleRecipeFavorite = (recipeId) => {
 		type: 'TOGGLE_RECIPE_FAVORITE',
 		id: recipeId
 	}
-} 
-
-export const findRecipe = (data) => {
-	return {
-		type: 'FIND_RECIPE',
-		data
-	}
 }

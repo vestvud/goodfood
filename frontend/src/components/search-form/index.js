@@ -22,7 +22,7 @@ class SearchForm extends Component {
   }
 
   onSelectInput = (value) => {
-  	console.log(value)
+    this.props.findRecipes(value);
   }
 
   typeChange = (event, index, typeValue) => this.setState({typeValue});
