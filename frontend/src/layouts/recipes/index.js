@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import App from '../app'
+import { toggleRecipeFavorite } from '../../actions/recipes.js'
 
 import RecipesList from '../../components/recipes-list'
 
@@ -25,5 +26,10 @@ class Recipes extends Component {
 export default connect(
   function mapStateToProps(state) {
     return { recipes: state.recipes };
+  },
+  function mapDispatchToProps(dispatch) {
+    return {
+      toggleFavorite: recipeId => dispatch(toggleRecipeFavorite(recipeId))
+    }
   }
 )(Recipes);

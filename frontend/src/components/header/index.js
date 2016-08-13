@@ -5,7 +5,7 @@ import AddPin from 'material-ui/svg-icons/content/add';
 import SearchPin from 'material-ui/svg-icons/action/search';
 import FavoritePin from 'material-ui/svg-icons/action/favorite';
 import { Link } from 'react-router'
-import {teal100, yellow500, blue500} from 'material-ui/styles/colors';
+import {teal100} from 'material-ui/styles/colors';
 
 require('./index.styl')
 

@@ -6,3 +6,10 @@ export const addRecipe = (data) => {
     data
   }
 }
+
+export const toggleRecipeFavorite = (recipeId) => {
+	return {
+		type: 'TOGGLE_RECIPE_FAVORITE',
+		id: recipeId
+	}
+} 

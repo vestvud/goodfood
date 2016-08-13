@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import App from '../app'
-import { addRecipe } from '../../actions'
+import { addRecipe } from '../../actions/recipes.js'
 
 import { Paper, Divider, RaisedButton, FloatingActionButton, Chip, Snackbar } from 'material-ui'
 import FormsyText from 'formsy-material-ui/lib/FormsyText';
@@ -49,10 +49,14 @@ class RecipeForm extends Component {
   }
 
   addTagInput = () => {
+    let value = this.tagInput.getValue();
+    if (!value) {
+      return;
+    }
     let tags = this.state.tags;
-    tags.push({title: this.tagInput.getValue(), key: this.state.tagsIndex + 1});
+    tags.push({title: value, key: this.state.tagsIndex + 1});
     this.setState({tags: tags, tagsIndex: ++this.state.tagsIndex});
-    this.tagInput.setValue('what');
+    this.tagInput.setValue('');
   }
 
   deleteTag = (key) => {
