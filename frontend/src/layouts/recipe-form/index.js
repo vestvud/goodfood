@@ -100,6 +100,16 @@ class RecipeForm extends Component {
               />
               <Divider />
               <FormsyText style={{
+                paddingLeft: '10px'
+              }} 
+                hintText="Тип блюда" 
+                underlineShow={false} 
+                fullWidth={true}
+                name="type"
+                required
+              />
+              <Divider />
+              <FormsyText style={{
                   paddingLeft: '10px'
                 }} 
                 hintText="Рецепт" 
@@ -148,10 +158,19 @@ class RecipeForm extends Component {
                   />
                 </div>
 
+                <div className="recipe-form__characters">
+                  <FormsyText style={{
+                    paddingLeft: '10px',
+                    display: 'inline-block',
+                    width: '60px',
+                    marginRight: '7px'
+                  }} 
+                    hintText="t, мин"
+                    name="time"
+                  />
                 <FormsyText style={{
                   paddingLeft: '10px',
                   width: '130px',
-                  float: 'right',
                   marginRight: '7px'
                 }} 
                   hintText="Калорийность"
@@ -159,6 +178,7 @@ class RecipeForm extends Component {
                   validations="isNumeric"
                   validationError={numericError}
                 />
+                </div>
               </div>  
               <div className="recipe-form__tags">
                 {this.state.tags.map((tag)=>{

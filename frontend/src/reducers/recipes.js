@@ -7,12 +7,11 @@ export default (recipes = [], action) => {
       });	
       return recipes;
     case 'TOGGLE_RECIPE_FAVORITE':
-      return recipes.filter(recipe => {
-        if (recipe.get('id') === action.id) {
-          return recipe.update('favorite', isFavorite => !isFavorite);
-        } else {
-          return recipe;
+      return recipes.map(recipe => {
+        if (recipe.id === action.id) {
+          recipe.favorite = !recipe.favorite;
         }
+        return recipe;
       });
       return recipes;  
     default:

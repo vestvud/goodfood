@@ -23,13 +23,13 @@ class Header extends Component {
 		    	<ReceiptPin color={teal100}/>
 		    	<span>рецепты</span>
 		    </Link>
-		    <Link className="tab" to='/favorite'>
-		    	<FavoritePin color={teal100}/>
-		    	<span>Избранное</span>
-		    </Link>
 		    <Link className="tab" to='/search'>
 		    	<SearchPin color={teal100}/>
 		    	<span>Поиск</span>
+		    </Link>
+		    <Link className="tab" to='/search'>
+		    	<FavoritePin color={teal100}/>
+		    	<span>Избранное</span>
 		    </Link>
 		</div>
       </div>

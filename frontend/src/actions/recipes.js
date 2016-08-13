@@ -13,3 +13,10 @@ export const toggleRecipeFavorite = (recipeId) => {
 		id: recipeId
 	}
 } 
+
+export const findRecipe = (data) => {
+	return {
+		type: 'FIND_RECIPE',
+		data
+	}
+}

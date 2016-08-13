@@ -13,7 +13,7 @@ class RecipesList extends Component {
     const { toggleFavorite, recipes } = this.props;
 
     return (
-      <div>
+      <div className="recipes">
         {recipes.map((recipe) => (
             <Paper className="recipe" 
               key={recipe.id}
@@ -21,19 +21,20 @@ class RecipesList extends Component {
               style={{
                 height: 200,
                 width: 300,
-                margin: 20,
+                margin: 10,
                 float: 'left',
                 overflow: 'hidden',
                 padding: '10px',
                 position: 'relative'
               }}>
+              <div className="recipe__type">{recipe.data.type.title}</div>
               <div className="recipe__tags">
                 {recipe.data.tags ? recipe.data.tags.map(function(tag){
                   return (<div key={tag.key} className="recipe__tag">{tag.title}</div>)
                 }) : null}
               </div>
-              <div className="recipe__favorite" onClick={toggleFavorite}>
-                <FavoriteBorderPin color={red300}/>
+              <div className="recipe__favorite" onClick={() => toggleFavorite(recipe.id)}>
+                { recipe.favorite ? <FavoritePin color={red300}/> : <FavoriteBorderPin color={red300}/>}
               </div>
               <Link className="recipe__title" to="/ff">{recipe.data.title}</Link>
               <div className="recipe__text">{recipe.data.text}</div>

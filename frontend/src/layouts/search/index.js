@@ -1,20 +1,21 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import App from '../app'
-import { toggleRecipeFavorite } from '../../actions/recipes.js'
+import { toggleRecipeFavorite, findRecipe } from '../../actions/recipes.js'
 
+import SearchForm from '../../components/search-form'
 import RecipesList from '../../components/recipes-list'
 
 require('./index.styl')
 
-class Recipes extends Component {
+class Search extends Component {
  
   render() {
-    const { history } = this.context;
     const { recipes, toggleFavorite } = this.props;
 
     return (
         <App>
+          <SearchForm/>
           <RecipesList 
           	recipes={recipes}
           	toggleFavorite={toggleFavorite}/>
@@ -29,7 +30,8 @@ export default connect(
   },
   function mapDispatchToProps(dispatch) {
     return {
-      toggleFavorite: recipeId => dispatch(toggleRecipeFavorite(recipeId))
+      toggleFavorite: recipeId => dispatch(toggleRecipeFavorite(recipeId)),
+      findRecipe: data => dispatch(findRecipe(data))
     }
   }
-)(Recipes);
+)(Search);
