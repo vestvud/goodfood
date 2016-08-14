@@ -1,14 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import App from '../app'
-import { addRecipe } from '../../actions/recipes.js'
+import { fetchAddRecipe } from '../../actions/recipes.js'
 
 import { Paper, Divider, RaisedButton, FloatingActionButton, Chip, Snackbar } from 'material-ui'
 import FormsyText from 'formsy-material-ui/lib/FormsyText';
 import ContentAdd from 'material-ui/svg-icons/content/add'
 
 require('./index.styl');
-
 
 class RecipeForm extends Component {
 
@@ -36,11 +35,11 @@ class RecipeForm extends Component {
   }
 
   submitForm = (data) => {
-    const {addRecipe} = this.props;
+    const {fetchAddRecipe} = this.props;
     if (this.state.tags.length) {
       data.tags = this.state.tags;
     }
-    addRecipe(data);
+    fetchAddRecipe(data);
     this.setState({openSnackbar: true});
   }
 
@@ -77,107 +76,105 @@ class RecipeForm extends Component {
     let { wordsError, numericError, urlError } = this.state.errorMessages;
 
     return (
-        <App>
-          <div className="recipe-form">
-          <div className="recipe-form__title">Добавить новый рецепт</div>
-
-          <Paper zDepth={2}>
-            <Formsy.Form
-              onValid={this.enableButton}
-              onInvalid={this.disableButton}
-              onValidSubmit={this.submitForm}
-              onInvalidSubmit={this.notifyFormError}
-            >
-              <FormsyText style={{
+      <App>
+        <div className="recipe-form">
+        <div className="recipe-form__title">Добавить новый рецепт</div>
+        <Paper zDepth={2}>
+          <Formsy.Form
+            onValid={this.enableButton}
+            onInvalid={this.disableButton}
+            onValidSubmit={this.submitForm}
+            onInvalidSubmit={this.notifyFormError}
+          >
+            <FormsyText style={{
                 paddingLeft: '10px',
                 fontWeight: 'bold'
               }} 
-                hintText="Название" 
-                underlineShow={false} 
-                fullWidth={true}
-                name="title"
-                required
-              />
-              <Divider />
-              <FormsyText style={{
+              hintText="Название" 
+              underlineShow={false} 
+              fullWidth={true}
+              name="title"
+              required
+            />
+            <Divider />
+            <FormsyText style={{
                 paddingLeft: '10px'
               }} 
-                hintText="Тип блюда" 
-                underlineShow={false} 
-                fullWidth={true}
-                name="type"
-                required
+              hintText="Тип блюда" 
+              underlineShow={false} 
+              fullWidth={true}
+              name="type"
+              required
               />
-              <Divider />
-              <FormsyText style={{
-                  paddingLeft: '10px'
+            <Divider />
+            <FormsyText style={{
+                paddingLeft: '10px'
+              }} 
+              hintText="Рецепт" 
+              multiLine={true}
+              underlineShow={false}
+              fullWidth={true}
+              name="text"
+              required
+            />
+            <Divider />
+            <div className="recipe-form__overflow">
+              <div className="recipe-form__options">
+                <FormsyText style={{
+                    paddingLeft: '10px',
+                    display: 'inline-block',
+                    width: '60px',
+                    marginRight: '7px'
+                  }} 
+                  hintText="Белки"
+                  name="proteins"
+                  validations="isNumeric"
+                  validationError={numericError}
+                />
+                <FormsyText style={{
+                  paddingLeft: '10px',
+                  display: 'inline-block',
+                  width: '60px',
+                  marginRight: '7px'
                 }} 
-                hintText="Рецепт" 
-                multiLine={true}
-                underlineShow={false}
-                fullWidth={true}
-                name="text"
-                required
-              />
-              <Divider />
-              <div className="recipe-form__overflow">
-
-                <div className="recipe-form__options">
-                  <FormsyText style={{
-                    paddingLeft: '10px',
-                    display: 'inline-block',
-                    width: '60px',
-                    marginRight: '7px'
-                  }} 
-                    hintText="Белки"
-                    name="proteins"
-                    validations="isNumeric"
-                    validationError={numericError}
-                  />
-                  <FormsyText style={{
-                    paddingLeft: '10px',
-                    display: 'inline-block',
-                    width: '60px',
-                    marginRight: '7px'
-                  }} 
-                    hintText="Жиры"
-                    name="fats"
-                    validations="isNumeric"
-                    validationError={numericError}
-                  />
-                  <FormsyText style={{
-                    paddingLeft: '10px',
-                    display: 'inline-block',
-                    width: '60px',
-                    marginRight: '7px'
-                  }} 
-                    hintText="Углев."
-                    name="carbohydrates"
-                    validations="isNumeric"
-                    validationError={numericError}
-                  />
+                  hintText="Жиры"
+                  name="fats"
+                  validations="isNumeric"
+                  validationError={numericError}
+                />
+                <FormsyText style={{
+                  paddingLeft: '10px',
+                  display: 'inline-block',
+                  width: '60px',
+                  marginRight: '7px'
+                }} 
+                  hintText="Углев."
+                  name="carbohydrates"
+                  validations="isNumeric"
+                  validationError={numericError}
+                />
                 </div>
 
                 <div className="recipe-form__characters">
                   <FormsyText style={{
-                    paddingLeft: '10px',
-                    display: 'inline-block',
-                    width: '60px',
-                    marginRight: '7px'
-                  }} 
+                      paddingLeft: '10px',
+                      display: 'inline-block',
+                      width: '60px',
+                      marginRight: '7px'
+                    }} 
                     hintText="t, мин"
                     name="time"
                   />
-                <FormsyText style={{
-                  paddingLeft: '10px',
-                  width: '130px',
-                  marginRight: '7px'
-                }} 
-                  hintText="Калорийность"
-                  name="calorific"
-                  validations="isNumeric"
-                  validationError={numericError}
-                />
+                  <FormsyText style={{
+                      paddingLeft: '10px',
+                      width: '130px',
+                      marginRight: '7px'
+                    }} 
+                    hintText="Калорийность"
+                    name="calorific"
+                    validations="isNumeric"
+                    validationError={numericError}
+                  />
                 </div>
               </div>  
               <div className="recipe-form__tags">
@@ -196,8 +193,8 @@ class RecipeForm extends Component {
                 })}
                 <div style={{marginTop: '5px'}}>
                   <FormsyText style={{
-                    paddingLeft: '10px',
-                    width: '130px',
+                      paddingLeft: '10px',
+                      width: '130px',
                     }} 
                     hintText="Тег"
                     name="tag"
@@ -244,11 +241,11 @@ class RecipeForm extends Component {
 
 export default connect(
   function mapStateToProps(state){
-    return {}
+    return {};
   },
   function mapDispatchToProps(dispatch){
     return {
-      addRecipe: data => dispatch(addRecipe(data))
+      fetchAddRecipe: data => dispatch(fetchAddRecipe(data))
     };
   }
 )(RecipeForm);

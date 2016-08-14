@@ -9,25 +9,22 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import Header from '../../components/header'
 
 const lightMuiTheme = getMuiTheme(lightBaseTheme)
-
-// Needed for onTouchTap
-// http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
 require('./index.styl')
 
 function App({ pushPath, children }) {
   return (
-  	<div className="app-layout">
-	    <MuiThemeProvider muiTheme={lightMuiTheme}>
-	      <div>
-	        <Header/>
-	        <main>
-	          {children}
-	        </main>
-	      </div>
-	    </MuiThemeProvider>
-  </div>
+    <div className="app-layout">
+      <MuiThemeProvider muiTheme={lightMuiTheme}>
+        <div>
+          <Header/>
+          <main>
+            {children}
+          </main>
+        </div>
+       </MuiThemeProvider>
+    </div>
   );
 };
 

@@ -3,8 +3,7 @@ export default (foundRecipes = [], action) => {
     case 'SET_FOUND_RESIPES':
       return action.data.map((data)=>{
         return {
-          data: data,
-          id: Math.random()
+          ...data
         };
       });
     case 'CLEAR_FOUND_RESIPES':

@@ -1,27 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import {AutoComplete, SelectField, MenuItem} from 'material-ui';
+import {TextField, SelectField, MenuItem} from 'material-ui';
 
 require('./index.styl')
 
 class SearchForm extends Component {
 
   state = {
-  	dataSource: [],
-  	typeValue: 1
+    typeValue: 1
   }
 
-  handleUpdateInput = (value) => {
-    this.setState({
-      dataSource: [
-        value,
-        value + value,
-        value + value + value,
-      ],
-    });
-  }
-
-  onSelectInput = (value) => {
+  onSelectInput = (event, value) => {
     this.props.findRecipes(value);
   }
 
@@ -30,12 +19,10 @@ class SearchForm extends Component {
   render() {
     return (
       <div className="search-form">
-		<AutoComplete
-          hintText="Поиск по названию, тегу"
-          dataSource={this.state.dataSource}
-          onUpdateInput={this.handleUpdateInput}
-          onNewRequest={this.onSelectInput}
+		    <TextField
+          hintText="Поиск по названию, в тексте"
           fullWidth={true}
+          onChange={this.onSelectInput}
         />
 
         <SelectField value={this.state.typeValue}

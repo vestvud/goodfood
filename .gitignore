@@ -10,3 +10,6 @@ npm-debug.log
 # Docker
 Dockerfile
 docker-compose.yml
+latest.dump
+npm-debug.log
+config.js
